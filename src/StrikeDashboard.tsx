@@ -595,7 +595,7 @@ export default function StrikeDashboard() {
     const avgLev = list.length ? list.reduce((a, b) => a + (b.Position?.Leverage || 0), 0) / list.length : 0;
     const totalFees = list.reduce((a, b) => a + (b.Fees || 0), 0);
     const totalPNL = list.reduce((a, b) => a + (b.PNL?.[0] || 0), 0);
-    const totalPNLforPool = -totalPNL;
+    const totalPNLforPool = totalPNL;
 
     const longSize = list.filter(r=>r.Position?.Side==="LONG").reduce((a,b)=>a + (b.TotalPositionSize?.TokenValueUsd||0),0);
     const shortSize = list.filter(r=>r.Position?.Side==="SHORT").reduce((a,b)=>a + (b.TotalPositionSize?.TokenValueUsd||0),0);

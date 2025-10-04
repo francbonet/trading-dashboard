@@ -34,7 +34,7 @@ export default function App() {
       : 0
     const totalFees = list.reduce((a, b) => a + (b.Fees || 0), 0)
     const totalPNL = list.reduce((a, b) => a + (b.PNL?.[0] || 0), 0)
-    const totalPNLforPool = -totalPNL;
+    const totalPNLforPool = totalPNL;
     const longSize = list
       .filter((r) => r.Position?.Side === 'LONG')
       .reduce((a, b) => a + (b.TotalPositionSize?.TokenValueUsd || 0), 0)
@@ -93,12 +93,17 @@ export default function App() {
             icon={<BarChart3 size={16} />}
           />
           <StatCard
-            icon={<Coins className="h-4 w-4"/>}
+            icon={<Coins className="h-4 w-4" />}
             label="PNL total (pool)"
-            type="pool"
-            value={formatNum(stats.totalPNLforPool ?? fallbackAggs.totalPNLforPool, { style: 'currency', currency: 'USD' })}
-            sub={`Fees ${formatNum(stats.TotalFees ?? fallbackAggs.totalFees, { style: 'currency', currency: 'USD' })}`}
-          />
+            value={stats.totalPNLforPool ?? fallbackAggs.totalPNLforPool}
+            formatter={(n) => formatNum(n, { style: "currency", currency: "USD" })}
+            colorize
+            showPlus
+            sub={`Fees ${formatNum(
+              stats.TotalFees ?? fallbackAggs.totalFees,
+              { style: "currency", currency: "USD" }
+            )}`}
+          />          
         </div>
 
         {/* Charts */}
