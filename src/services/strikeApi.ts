@@ -1,6 +1,31 @@
+// src/services/strikeApi.ts
 import type { ApiResponse } from '../types'
 
-const API_BASE = 'https://api.bending.ai/defi/strikefinance' as const
+const DEV_API_BASE  = 'https://api.bending.ai/defi/strikefinance';
+const PROD_API_BASE = 'https://nameless-wood-1c17.francbonet.workers.dev/defi/strikefinance' // << CANVIA-HO
+const API_BASE = import.meta.env.DEV ? DEV_API_BASE : PROD_API_BASE
+
+function qs(params: Record<string, string>) {
+  return new URLSearchParams(params).toString()
+}
+
+async function fetchJSON<T = any>(url: string, init: RequestInit = {}, timeoutMs = 12000): Promise<T> {
+  const ctrl = new AbortController()
+  const t = setTimeout(() => ctrl.abort(), timeoutMs)
+  try {
+    const res = await fetch(url, { ...init, signal: ctrl.signal })
+    if (!res.ok) {
+      const text = await res.text().catch(() => '')
+      throw new Error(`HTTP ${res.status} ${res.statusText} · ${text.slice(0, 180)}`)
+    }
+    return (await res.json()) as T
+  } catch (e: any) {
+    if (e?.name === 'AbortError') throw new Error(`Timeout després de ${timeoutMs}ms: ${url}`)
+    throw e
+  } finally {
+    clearTimeout(t)
+  }
+}
 
 export async function fetchStrike({
   market,
@@ -9,26 +34,33 @@ export async function fetchStrike({
   market: string
   side: 'LONG' | 'SHORT' | 'BOTH'
 }): Promise<ApiResponse> {
-  const params = new URLSearchParams({
-    type: side === 'BOTH' ? 'LONG' : side,
+  const baseParams = {
     sort_by: 'PNL',
     order: 'desc',
     position_type: 'leaderboard_view',
     market,
-  })
-  if (side !== 'BOTH') {
-    const res = await fetch(`${API_BASE}?${params.toString()}`)
-    return res.json()
   }
-  const base = Object.fromEntries(params)
-  const [longRes, shortRes] = await Promise.all([
-    fetch(`${API_BASE}?${new URLSearchParams({ ...base, type: 'LONG' })}`),
-    fetch(`${API_BASE}?${new URLSearchParams({ ...base, type: 'SHORT' })}`),
+
+  if (side !== 'BOTH') {
+    const url = `${API_BASE}?${qs({ ...baseParams, type: side })}`
+    return fetchJSON<ApiResponse>(url)
+  }
+
+  // BOTH → LONG + SHORT en paral·lel
+  const [L, S] = await Promise.all([
+    fetchJSON<ApiResponse>(`${API_BASE}?${qs({ ...baseParams, type: 'LONG' })}`),
+    fetchJSON<ApiResponse>(`${API_BASE}?${qs({ ...baseParams, type: 'SHORT' })}`),
   ])
-  const [L, S] = await Promise.all([longRes.json(), shortRes.json()])
-  return {
-    ...L,
-    LeaderBoards: [...(L.LeaderBoards || []), ...(S.LeaderBoards || [])],
+
+  // Merge i ordenació global per PNL desc
+  const mergedLeaderboards = [
+    ...(L.LeaderBoards ?? []),
+    ...(S.LeaderBoards ?? []),
+  ].sort((a, b) => (b.PNL?.[0] ?? 0) - (a.PNL?.[0] ?? 0))
+
+  const merged: ApiResponse = {
+    ...L, // fem servir L de base per l’estructura
+    LeaderBoards: mergedLeaderboards,
     Stats: {
       ...L.Stats,
       LongCount: L.Stats?.LongCount ?? 0,
@@ -42,5 +74,7 @@ export async function fetchStrike({
     PerPage: 0,
     TotalItem: 0,
     TotalParticipants: 0,
-  } as ApiResponse
+  }
+
+  return merged
 }

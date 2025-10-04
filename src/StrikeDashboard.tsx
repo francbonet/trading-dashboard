@@ -23,7 +23,9 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, AreaChart, A
 // ---- File: src/types.ts
 // -----------------------------
 
-const API_BASE = "https://api.bending.ai/defi/strikefinance" as const;
+const DEV_API_BASE  = 'https://api.bending.ai/defi/strikefinance';
+const PROD_API_BASE = 'https://nameless-wood-1c17.francbonet.workers.dev/defi/strikefinance'; // ⬅️ posa la teva URL del Worker
+const API_BASE = import.meta.env.DEV ? DEV_API_BASE : PROD_API_BASE;
 
 export type TokenValue = {
   TokenKey: string;
