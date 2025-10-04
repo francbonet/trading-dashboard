@@ -106,7 +106,7 @@ export function analyzeMarket(market: string, side: 'LONG' | 'SHORT' | 'BOTH', d
 
   const lines: string[] = []
   lines.push(`Mercat ${market.toUpperCase()} – costat ${side === 'BOTH' ? 'GLOBAL' : side}`)
-  if (currentPrice) lines.push(`Preu estimat actual: ${formatNum(currentPrice)}`)
+  if (currentPrice) lines.push(`Preu estimat actual: ${formatNum(currentPrice)}$`)
   lines.push(`Relació Long/Short: ${formatNum(longCount)} / ${formatNum(shortCount)} | Lev. mitjà: ${formatNum(avgLev)}x | Sentiment: ${sentiment}.`)
   lines.push(`Risc (nombre): Imminent ≤2%: ${formatNum(pctImminent, { maximumFractionDigits: 1 })}% | Near 2–7%: ${formatNum(pctNear, { maximumFractionDigits: 1 })}%`)
   lines.push(`Risc (ponderat USD): Imminent: ${formatNum(wPctImminent, { maximumFractionDigits: 1 })}% | Near: ${formatNum(wPctNear, { maximumFractionDigits: 1 })}%`)

@@ -57,6 +57,7 @@ export type Stats = {
   AccountValue: number
   Wins: number
   Liquidated24H: number
+  totalPNLforPool: number
 }
 
 export type LiquidationBucket = {

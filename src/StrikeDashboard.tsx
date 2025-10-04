@@ -25,7 +25,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, AreaChart, A
 
 const DEV_API_BASE  = 'https://api.bending.ai/defi/strikefinance';
 const PROD_API_BASE = 'https://nameless-wood-1c17.francbonet.workers.dev/defi/strikefinance'; // ⬅️ posa la teva URL del Worker
-const API_BASE = import.meta.env.DEV ? DEV_API_BASE : PROD_API_BASE;
+const API_BASE = import.meta.env.DEV ? DEV_API_BASE : PROD_API_BASE
 
 export type TokenValue = {
   TokenKey: string;
@@ -221,7 +221,7 @@ function analyzeMarket(market: string, side: "LONG" | "SHORT" | "BOTH", data: Ap
   // Conclusió textual
   const messages: string[] = [];
   messages.push(`Mercat ${market.toUpperCase()} – costat ${side === "BOTH" ? "GLOBAL" : side}`);
-  if (currentPrice) messages.push(`Preu estimat actual: ${formatNum(currentPrice)}`);
+  if (currentPrice) messages.push(`Preu estimat actual: ${formatNum(currentPrice)}$`);
   messages.push(`Relació Long/Short: ${formatNum(longCount)} / ${formatNum(shortCount)} | Lev. mitjà: ${formatNum(avgLev)}x | Sentiment: ${sentiment}.`);
 
   const pctImminent = total ? (imminent/total)*100 : 0;
@@ -595,6 +595,8 @@ export default function StrikeDashboard() {
     const avgLev = list.length ? list.reduce((a, b) => a + (b.Position?.Leverage || 0), 0) / list.length : 0;
     const totalFees = list.reduce((a, b) => a + (b.Fees || 0), 0);
     const totalPNL = list.reduce((a, b) => a + (b.PNL?.[0] || 0), 0);
+    const totalPNLforPool = -totalPNL;
+
     const longSize = list.filter(r=>r.Position?.Side==="LONG").reduce((a,b)=>a + (b.TotalPositionSize?.TokenValueUsd||0),0);
     const shortSize = list.filter(r=>r.Position?.Side==="SHORT").reduce((a,b)=>a + (b.TotalPositionSize?.TokenValueUsd||0),0);
     return { longCount, shortCount, avgLev, totalFees, totalPNL, longSize, shortSize };

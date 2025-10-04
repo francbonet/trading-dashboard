@@ -113,5 +113,9 @@ tr:hover { background:#131722; }
   padding: 6px 10px;
   font-size: 12px;
 }
-
-
+.value.text-green-400 {
+  color: #22c55e !important;
+}
+.value.text-red-400 {
+  color: #ef4444 !important;
+}

@@ -34,13 +34,14 @@ export default function App() {
       : 0
     const totalFees = list.reduce((a, b) => a + (b.Fees || 0), 0)
     const totalPNL = list.reduce((a, b) => a + (b.PNL?.[0] || 0), 0)
+    const totalPNLforPool = -totalPNL;
     const longSize = list
       .filter((r) => r.Position?.Side === 'LONG')
       .reduce((a, b) => a + (b.TotalPositionSize?.TokenValueUsd || 0), 0)
     const shortSize = list
       .filter((r) => r.Position?.Side === 'SHORT')
       .reduce((a, b) => a + (b.TotalPositionSize?.TokenValueUsd || 0), 0)
-    return { longCount, shortCount, avgLev, totalFees, totalPNL, longSize, shortSize }
+    return { longCount, shortCount, avgLev, totalFees, totalPNL, longSize, shortSize, totalPNLforPool }
   }, [data])
 
   const stats = data?.Stats || {}
@@ -53,9 +54,6 @@ export default function App() {
           <div>
             <h1 className="title">Strike Finance – Estat del mercat</h1>
             <p className="muted">KPIs, mapes de liquidació, rànquings i anàlisi IA del risc.</p>
-          </div>
-          <div className="muted" style={{ fontSize: 12 }}>
-            Vite + React + TS
           </div>
         </div>
 
@@ -72,10 +70,10 @@ export default function App() {
           loading={loading}
         />
 
-        {error && <div className="card" style={{ borderColor: '#7f1d1d', color: '#fecaca' }}>{error}</div>}
+        {error && <div className="card mt16" style={{ borderColor: '#7f1d1d', color: '#fecaca' }}>{error}</div>}
 
         {/* KPIs */}
-        <div className="row cols-4">
+        <div className="row cols-2 mt16">
           <StatCard
             label="Longs oberts"
             value={formatNum(stats.LongCount ?? fallbackAggs.longCount)}
@@ -95,19 +93,24 @@ export default function App() {
             icon={<BarChart3 size={16} />}
           />
           <StatCard
-            label="PNL total"
-            value={formatNum(stats.TotalPNL ?? fallbackAggs.totalPNL, { style: 'currency', currency: 'USD' })}
+            icon={<Coins className="h-4 w-4"/>}
+            label="PNL total (pool)"
+            type="pool"
+            value={formatNum(stats.totalPNLforPool ?? fallbackAggs.totalPNLforPool, { style: 'currency', currency: 'USD' })}
             sub={`Fees ${formatNum(stats.TotalFees ?? fallbackAggs.totalFees, { style: 'currency', currency: 'USD' })}`}
-            icon={<Coins size={16} />}
           />
         </div>
 
         {/* Charts */}
-        <div className="row cols-3 mt16">
+        <div className="row cols-1 mt16">
           <div style={{ gridColumn: 'span 2' }}>
             <LiquidationMap buckets={data?.LiquidationBuckets || []} avg={stats.LiquidationPriceAverage} />
           </div>
-          <LeverageHistogram rows={rows} />
+         
+        </div>
+
+        <div className="row cols-1 mt16">
+           <LeverageHistogram rows={rows} />
         </div>
 
         <div className="row cols-1 mt16">
