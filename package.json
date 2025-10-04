@@ -1,5 +1,6 @@
 {
   "name": "strike-dashboard",
+  "homepage": "https://francbonet.github.io/trading-dashboard",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,7 +9,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"    
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.6",
@@ -33,6 +36,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.5.6",
     "prettier": "^3.1.0",
     "sass": "^1.93.2",
