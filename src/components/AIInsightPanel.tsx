@@ -100,32 +100,32 @@ export function AIInsightPanel({
 
       {/* KPI Grid */}
       {result && (
-        <div className="ai-kpis">
+        <div className="ai-kpis grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Les següents propietats són opcionals: mostra només si hi són */}
           {'currentPrice' in result && (
-            <div className="kpi">
+            <div className="kpi min-w-0">
               <div className="kpi-label">Preu estimat actual</div>
               <div className="kpi-value">{fmtUSD((result as any).currentPrice, 2)}</div>
             </div>
           )}
           {'lsRatio' in result && (
-            <div className="kpi">
+            <div className="kpi min-w-0">
               <div className="kpi-label">Relació Long/Short</div>
               <div className="kpi-value">{(result as any).lsRatio}</div>
             </div>
           )}
-          <div className="kpi">
+          <div className="kpi min-w-0">
             <div className="kpi-label">Lev. mitjà</div>
             <div className="kpi-value">{result.avgLev != null ? `${result.avgLev.toFixed(2)}x` : '—'}</div>
           </div>
           {'sentiment' in result && (
-            <div className="kpi">
+            <div className="kpi min-w-0">
               <div className="kpi-label">Sentiment</div>
               <div className="kpi-value">{(result as any).sentiment}</div>
             </div>
           )}
           {result.triggerRange && (
-            <div className="kpi kpi-span2">
+            <div className="kpi">
               <div className="kpi-label">Rang objectiu</div>
               <div className="kpi-value">
                 {fmtUSD(result.triggerRange.low, 4)} – {fmtUSD(result.triggerRange.high, 4)}

@@ -2,9 +2,14 @@ export function formatNum(n: number | undefined, opts: Intl.NumberFormatOptions 
   if (n == null || Number.isNaN(n)) return '-'
   return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2, ...opts }).format(n)
 }
-export function secsToHHMM(secs?: number) {
+export function secsToDHMM(secs?: number) {
   if (!secs && secs !== 0) return '-'
-  const h = Math.floor(secs / 3600)
-  const m = Math.floor((secs % 3600) / 60)
-  return `${h}h ${m}m`
+  
+  const totalHours = Math.floor(secs / 3600)
+  const days = Math.floor(totalHours / 24)
+  const hours = totalHours % 24
+  const minutes = Math.floor((secs % 3600) / 60)
+
+  if (days > 0) return `${days}d ${hours}h ${minutes}m`
+  return `${hours}h ${minutes}m`
 }

@@ -1,5 +1,5 @@
 import type { LeaderboardRow } from '../types'
-import { secsToHHMM, formatNum } from '../lib/format'
+import { secsToDHMM, formatNum } from '../lib/format'
 
 export function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
   return (
@@ -44,7 +44,7 @@ export function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
                   fontWeight: 600,
                 }}>{formatNum(r.PNL?.[0], { style: 'currency', currency: 'USD' })}</td>
                 <td className="right">{formatNum(r.LiquidationPrice)}</td>
-                <td>{secsToHHMM(r.DurationInSeconds)}</td>
+                <td>{secsToDHMM(r.DurationInSeconds)}</td>
               </tr>
             ))}
           </tbody>

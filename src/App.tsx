@@ -106,6 +106,10 @@ export default function App() {
           />          
         </div>
 
+        <div className="row cols-1 mt16">
+            <AIInsightPanel market={market} side={side} data={data} />
+        </div>
+
         {/* Charts */}
         <div className="row cols-1 mt16">
           <div style={{ gridColumn: 'span 2' }}>
@@ -122,10 +126,6 @@ export default function App() {
           {/* <div style={{ gridColumn: 'span 1' }}> */}
             <TopPNL rows={rows} />
           {/* </div> */}
-        </div>
-
-        <div className="row cols-1 mt16">
-            <AIInsightPanel market={market} side={side} data={data} />
         </div>
 
         {/* Leaderboard */}

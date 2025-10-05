@@ -74,6 +74,7 @@ tr:hover { background:#131722; }
   display: flex; justify-content: space-between; font-size: 11px; margin-top: 6px;
 }
 
+/*
 .ai-kpis {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -86,9 +87,32 @@ tr:hover { background:#131722; }
   border-radius: 12px;
   padding: 10px 12px;
 }
+.kpi-value { font-size: 14px; font-weight: 600; }
+*/
+
+.ai-kpis {
+  display: grid;
+  grid-template-columns: 1fr;   /* mòbil: 1 per fila */
+  gap: 12px;
+}
+@media (min-width: 640px) {     /* sm */
+  .ai-kpis { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (min-width: 1024px) {    /* lg */
+  .ai-kpis { grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+.kpi { 
+    background: #151924;
+  border: 1px solid #242a37;
+  border-radius: 12px;
+  padding: 10px 12px;
+  width: 100%; 
+  min-width: 0;
+ }
+.kpi-value { word-break: break-word; line-height: 1.2; }
+
 .kpi-span2 { grid-column: span 2; }
 .kpi-label { font-size: 11px; color: #9aa3b2; margin-bottom: 4px; }
-.kpi-value { font-size: 14px; font-weight: 600; }
 
 .ai-summary { margin-top: 8px; }
 .ai-summary-text {
