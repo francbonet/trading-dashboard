@@ -333,7 +333,7 @@ function Controls({ market, setMarket, side, setSide, search, setSearch, onUploa
           <SelectValue placeholder="Mercat" />
         </SelectTrigger>
         <SelectContent>
-          {['ada','min','strike','wmtx','iag','btc'].map(m => (
+          {['ada','snek','min','strike','wmtx','iag','btc'].map(m => (
             <SelectItem key={m} value={m}>{m.toUpperCase()}</SelectItem>
           ))}
         </SelectContent>
@@ -513,21 +513,21 @@ function LeaderboardTable({ rows }:{ rows: LeaderboardRow[] }){
             <tbody>
               {rows.map((r, idx) => (
                 <tr key={idx} className="border-b hover:bg-muted/20">
-                  <td className="px-3 py-2">
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">
                     <div className="flex flex-col">
                       <span className="font-medium">{r.Address?.ADAHandle || r.Address?.Address?.slice(0,10)+"…"}</span>
                       <span className="text-xs text-muted-foreground">{r.Address?.Address?.slice(0, 20)}…</span>
                     </div>
                   </td>
-                  <td className="px-3 py-2">
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">
                     <Badge variant={r.Position?.Side === 'LONG' ? 'default' : 'secondary'}>{r.Position?.Side}</Badge>
                   </td>
-                  <td className="px-3 py-2">{formatNum(r.Position?.Leverage)}x</td>
-                  <td className="px-3 py-2">{formatNum(r.TotalPositionSize?.TokenValueUsd, { style:'currency', currency:'USD' })}</td>
-                  <td className="px-3 py-2">{formatNum(r.CurrentPositionValue?.TokenValueUsd, { style:'currency', currency:'USD' })}</td>
-                  <td className="px-3 py-2">{formatNum(r.PNL?.[0], { style:'currency', currency:'USD' })}</td>
-                  <td className="px-3 py-2">{formatNum(r.LiquidationPrice)}</td>
-                  <td className="px-3 py-2">{secsToHHMM(r.DurationInSeconds)}</td>
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">{formatNum(r.Position?.Leverage)}x</td>
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">{formatNum(r.TotalPositionSize?.TokenValueUsd, { style:'currency', currency:'USD' })}</td>
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">{formatNum(r.CurrentPositionValue?.TokenValueUsd, { style:'currency', currency:'USD' })}</td>
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">{formatNum(r.PNL?.[0], { style:'currency', currency:'USD' })}</td>
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">{formatNum(r.LiquidationPrice)}</td>
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">{secsToHHMM(r.DurationInSeconds)}</td>
                 </tr>
               ))}
             </tbody>
