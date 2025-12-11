@@ -31,7 +31,7 @@ export function Controls({
     <>
       <div className="controls">
         <select value={market} onChange={(e) => setMarket(e.target.value)} className="input">
-          {['ada', 'snek','min', 'strike', 'wmtx', 'iag', 'btc'].map((m) => (
+          {['ada', 'snek','min', 'strike', 'wmtx', 'iag', 'btc','night'].map((m) => (
             <option key={m} value={m}>{m.toUpperCase()}</option>
           ))}
         </select>
