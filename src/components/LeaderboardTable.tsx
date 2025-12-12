@@ -19,6 +19,7 @@ export function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
               <th className="right">Valor actual (USD)</th>
               <th className="right">PNL (USD)</th>
               <th className="right">Liq.</th>
+              <th>Entry</th>
               <th>Duració</th>
             </tr>
           </thead>
@@ -43,7 +44,8 @@ export function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
                   color: r.PNL?.[0] > 0 ? '#22c55e' : r.PNL?.[0] < 0 ? '#ef4444' : 'inherit',
                   fontWeight: 600,
                 }}>{formatNum(r.PNL?.[0], { style: 'currency', currency: 'USD' })}</td>
-                <td className="right">{formatNum(r.LiquidationPrice)}</td>
+                <td className="right">{formatNum(r.LiquidationPrice, { style: 'currency', currency: 'USD' } )}</td>
+                <td>{formatNum(r.EntryMarkPrice[0], { style: 'currency', currency: 'USD' } )}</td>
                 <td>{secsToDHMM(r.DurationInSeconds)}</td>
               </tr>
             ))}

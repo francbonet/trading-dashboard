@@ -4,8 +4,9 @@ import { analyzeMarket } from '../ai/analyzer'
 
 type RiskLevel = 'low' | 'medium' | 'high' | undefined
 
-const fmtUSD = (n?: number, d = 2) =>
+const fmtUSD = (n?: number, d = 4) =>
   n == null ? '—' : n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: d, maximumFractionDigits: d })
+
 const fmtPct = (n?: number, d = 1) =>
   n == null ? '—' : `${n.toFixed(d)}%`
 
@@ -105,7 +106,7 @@ export function AIInsightPanel({
           {'currentPrice' in result && (
             <div className="kpi min-w-0">
               <div className="kpi-label">Preu estimat actual</div>
-              <div className="kpi-value">{fmtUSD((result as any).currentPrice, 2)}</div>
+              <div className="kpi-value">{fmtUSD((result as any).currentPrice, 4)}</div>
             </div>
           )}
           {'lsRatio' in result && (

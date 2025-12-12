@@ -507,6 +507,7 @@ function LeaderboardTable({ rows }:{ rows: LeaderboardRow[] }){
                 <th className="px-3 py-2">Valor actual (USD)</th>
                 <th className="px-3 py-2">PNL (USD)</th>
                 <th className="px-3 py-2">Liq.</th>
+                <th className="px-3 py-2">Entry</th>
                 <th className="px-3 py-2">Duració</th>
               </tr>
             </thead>
@@ -527,6 +528,7 @@ function LeaderboardTable({ rows }:{ rows: LeaderboardRow[] }){
                   <td className="whitespace-nowrap overflow-visible px-3 py-2">{formatNum(r.CurrentPositionValue?.TokenValueUsd, { style:'currency', currency:'USD' })}</td>
                   <td className="whitespace-nowrap overflow-visible px-3 py-2">{formatNum(r.PNL?.[0], { style:'currency', currency:'USD' })}</td>
                   <td className="whitespace-nowrap overflow-visible px-3 py-2">{formatNum(r.LiquidationPrice)}</td>
+                  <td className="whitespace-nowrap overflow-visible px-3 py-2">{secsToHHMM(r.EntryMarkPrice[0])}</td>
                   <td className="whitespace-nowrap overflow-visible px-3 py-2">{secsToHHMM(r.DurationInSeconds)}</td>
                 </tr>
               ))}
